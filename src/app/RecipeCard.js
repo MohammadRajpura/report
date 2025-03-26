@@ -60,14 +60,14 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
           style={{ margin: "auto" }}
         >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-body p-0 border-0 overflow-auto">
+            <div className="modal-body p-0 border-0 overflow-auto ">
               {selectedRecipe && (
                 <div
-                  className="fixed inset-0 overflow-auto bg-black bg-opacity-50 flex items-center justify-center z-50 "
+                  className="fixed inset-0  overflow-auto bg-black bg-opacity-50 flex items-center justify-center z-50 "
                   onClick={closeModal}
                 >
                   <div
-                    className="bg-[#FCEACC] rounded-2xl shadow-xl max-w-sm w-full pt-4 p-2 relative overflow-hidden"
+                    className="bg-[#FCEACC] mt-5 mb-4 rounded-2xl shadow-xl max-w-sm w-full pt-4 p-2 relative overflow-hidden"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Close Button */}
@@ -184,7 +184,7 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
                       </div>
 
                       {/* Recipe Image */}
-                      <div className="min-w-[200px] h-[200px] -mr-[55px]">
+                      <div className="min-w-[200px] w-[200px] h-[200px] -mr-[55px]">
                         <img
                           src={selectedRecipe.recipe.image}
                           alt={selectedRecipe.recipe.label}
