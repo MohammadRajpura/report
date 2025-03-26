@@ -1,28 +1,28 @@
-// RecipeCard.js
-
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
   return (
     <div className="row">
-      {recipes.map((recipe) => (
+      {/* Loop through each recipe and create a card */}
+      {recipes.map((recipe, index) => (
         <div
-          key={recipe.recipe.label}
+          key={`${recipe.recipe.label}-${index}`}
           className="col-lg-3 col-md-6 mb-3 rounded-4 h-auto"
         >
           <div className="card border-0 bg-transparent rounded-5 !h-full">
             <div className="relative">
-              {/* Image */}
+              {/* Recipe Image */}
               <img
                 src={recipe.recipe.image}
                 className="card-img-top rounded-5 object-cover h-[250px] w-full"
                 alt={recipe.recipe.label}
               />
 
-              {/* Overlay */}
+              {/* Dark Overlay for Better Readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-5"></div>
 
-              {/* Title and Text with Ingredient Icon */}
+              {/* Recipe Title and Calories */}
               <div className="absolute bottom-0 left-0 w-full p-3 text-white flex justify-between items-center">
                 <div>
                   <h5 className="card-title text-lg font-bold">
@@ -33,7 +33,7 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
                   </p>
                 </div>
 
-                {/* Ingredient Icon Button */}
+                {/* Open Modal Button (Ingredient Icon) */}
                 <button
                   onClick={() => openModal(recipe)}
                   className="bg-white text-black min-w-10 h-10 flex items-center justify-center rounded-5 overflow-hidden shadow-md"
@@ -45,8 +45,10 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
           </div>
         </div>
       ))}
+
+      {/* Recipe Details Modal */}
       <div
-        className="modal"
+        className="modal bg-black bg-opacity-50"
         id="exampleModal"
         tabIndex="-1"
         role="dialog"
@@ -59,73 +61,21 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
           role="document"
           style={{ margin: "auto" }}
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-body p-0 border-0 overflow-auto ">
+          <div
+            className="modal-content bg-transparent border-0"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+          >
+            <div className="modal-body p-0 border-0 overflow-auto">
               {selectedRecipe && (
                 <div
-                  className="fixed inset-0  overflow-auto bg-black bg-opacity-50 flex items-center justify-center z-50 "
+                  className="inset-0 overflow-auto bg-transparent flex items-center justify-center z-50"
                   onClick={closeModal}
                 >
                   <div
                     className="bg-[#FCEACC] mt-5 mb-4 rounded-2xl shadow-xl max-w-sm w-full pt-4 p-2 relative overflow-hidden"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the content
                   >
                     {/* Close Button */}
-                    {/* <button
-                      className="absolute top-3 left-3 text-gray-600"
-                      onClick={closeModal}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button> */}
-
-                    {/* Recipe Name */}
-                    {/* <h2 className="text-lg font-semibold text-center mt-2">
-                      {selectedRecipe.recipe.label}
-                    </h2> */}
-
-                    {/* Nutritional Info */}
-                    {/* <div className="flex justify-around text-center my-2">
-                      <div>
-                        <p className="text-xl font-semibold">
-                          {Math.round(
-                            selectedRecipe.recipe.calories /
-                              selectedRecipe.recipe.yield
-                          )}{" "}
-                        </p>
-                        <p className="text-sm text-gray-500">Calories</p>
-                      </div>
-                      <div>
-                        <p className="text-xl font-semibold">19g</p>
-                        <p className="text-sm text-gray-500">Protein</p>
-                      </div>
-                      <div>
-                        <p className="text-xl font-semibold">5g</p>
-                        <p className="text-sm text-gray-500">Carbs</p>
-                      </div>
-                    </div> */}
-
-                    {/* Recipe Image */}
-                    {/* <div className="relative w-full h-40 flex justify-center">
-                      <img
-                        src={selectedRecipe.recipe.image}
-                        alt={selectedRecipe.recipe.label}
-                        className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-                      />
-                    </div> */}
-                    {/* Back Button */}
                     <button
                       onClick={closeModal}
                       className="bg-white p-2 rounded-5 text-gray-700"
@@ -146,7 +96,8 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
                       </svg>
                     </button>
 
-                    <div className="relative flex justify-between  mt-4 mb-4">
+                    {/* Recipe Details */}
+                    <div className="relative flex justify-between mt-4 mb-4">
                       <div>
                         {/* Recipe Name */}
                         <h2
@@ -156,30 +107,29 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
                           {selectedRecipe.recipe.label}
                         </h2>
 
-                        {/* Nutritional Info */}
+                        {/* Display Some Ingredients */}
                         <div className="mt-4">
-                          <div className="flex items-center space-x-2">
-                            <span className="min-w-1.5 h-6 bg-green-500 rounded-full"></span>
-                            <p className="text-sm font-semibold text-gray-800 mb-0 text-sm">
-                              {selectedRecipe.recipe.ingredientLines[0]}
-                            </p>
-                          </div>
-                          <div className="flex items-center space-x-2 mt-3">
-                            <span className="min-w-1.5 h-6 bg-blue-500 rounded-full"></span>
-                            <p className="text-sm font-semibold text-gray-800 mb-0">
-                              <p className="text-sm font-semibold text-gray-800 mb-0">
-                                {selectedRecipe.recipe.ingredientLines[1]}
-                              </p>
-                            </p>
-                          </div>
-                          <div className="flex items-center space-x-2 mt-3 ">
-                            <span className="min-w-1.5 h-6 bg-orange-400 rounded-full"></span>
-                            <p className="text-sm font-semibold text-gray-800 mb-0">
-                              <p className="text-sm font-semibold text-gray-800 mb-0">
-                                {selectedRecipe.recipe.ingredientLines[2]}
-                              </p>
-                            </p>
-                          </div>
+                          {selectedRecipe.recipe.ingredientLines
+                            .slice(0, 3)
+                            .map((ingredient, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center space-x-2 mt-3"
+                              >
+                                <span
+                                  className={`min-w-1.5 h-6 rounded-full ${
+                                    index === 0
+                                      ? "bg-green-500"
+                                      : index === 1
+                                      ? "bg-blue-500"
+                                      : "bg-orange-400"
+                                  }`}
+                                ></span>
+                                <p className="text-sm font-semibold text-gray-800 mb-0">
+                                  {ingredient}
+                                </p>
+                              </div>
+                            ))}
                         </div>
                       </div>
 
@@ -193,7 +143,7 @@ const RecipeCard = ({ recipes, openModal, closeModal, selectedRecipe }) => {
                       </div>
                     </div>
 
-                    {/* Ingredients List */}
+                    {/* Full Ingredients List */}
                     <div className="bg-white p-3 rounded-2xl">
                       <h3 className="text-md font-semibold mb-2">
                         Ingredients
